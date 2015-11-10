@@ -1,0 +1,23 @@
+{
+  "name": "josimar-lemos/faker-console",
+  "description": "Faker console",
+  "authors": [
+    {
+      "name": "Josimar Lemos",
+      "email": "lemosxd01@gmail.com"
+    }
+  ],
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "FakerConsole\\": "src"
+    }
+  },
+  "require": {
+    "symfony/console": "^2.7",
+    "fzaninotto/faker": "^1.5"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "5.0.*"
+  }
+}
