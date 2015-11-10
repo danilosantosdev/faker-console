@@ -19,5 +19,6 @@
   },
   "require-dev": {
     "phpunit/phpunit": "5.0.*"
-  }
+  },
+  "bin": ["bin/faker"]
 }
