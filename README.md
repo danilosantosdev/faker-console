@@ -39,7 +39,7 @@ $ sudo chmod +x faker-console.phar
 $ sudo mv faker-console.phar /usr/local/bin/faker-console
 $ faker-console
 
-```c
+```
 
 ## Gerando registros ##
 
