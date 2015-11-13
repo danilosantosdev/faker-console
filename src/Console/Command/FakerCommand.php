@@ -28,6 +28,13 @@ class FakerCommand extends Command
         InputOption::VALUE_OPTIONAL,
         'Escolha a quantidade de registro que será gerada.',
         1
+      )
+      ->addOption(
+        'type',
+        null,
+        InputOption::VALUE_OPTIONAL,
+        'Escolha o tipo da saída.',
+        'json'
       );
   }
 
@@ -57,7 +64,21 @@ class FakerCommand extends Command
 
     }
 
-    $output->writeln(json_encode($data, JSON_PRETTY_PRINT));
+    $output->writeln( $this->parseReturn( $input->getOption('type'), $data ) );
+  }
+
+  protected function parseReturn($type, $data){
+
+    switch ($type) {
+      case 'json':
+        return json_encode($data, JSON_PRETTY_PRINT);
+        break;
+
+      default:
+        break;
+
+    }
+
   }
 
 }
