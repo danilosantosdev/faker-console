@@ -7,6 +7,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Yaml\Dumper;
 use Faker\Factory;
 
 class FakerCommand extends Command
@@ -90,11 +91,21 @@ class FakerCommand extends Command
         return var_export($data, true);
         break;
 
+      case 'yml':
+        return  $this->parseYML($data);
+        break;
+
       default:
         break;
 
     }
 
+  }
+
+  protected function parseYML($data){
+    $dumper = new Dumper();
+
+    return $dumper->dump($data, 2);
   }
 
 }

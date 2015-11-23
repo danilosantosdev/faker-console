@@ -3,6 +3,7 @@
 use FakerConsole\Console\Command\FakerCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
+use Symfony\Component\Yaml\Yaml;
 
 class FakerCommandTest extends PHPUnit_Framework_TestCase
 {
@@ -94,7 +95,28 @@ class FakerCommandTest extends PHPUnit_Framework_TestCase
 
     $this->assertTrue(is_array($return));
     $this->assertCount($quantity, $return);
+  }
 
+  public function testGenerateReturnYML(){
+    $fields = ['streetName', 'country', 'latitude', 'longitude'];
+    $quantity = 10;
+    $type = 'yml';
+    $command = $this->getCommandTester($this->app->find('generate'));
+    $command->execute(array(
+      'fields' => implode(':',$fields),
+      '--quantity' => $quantity,
+      '--type' => $type
+    ));
+
+    $return = $command->getDisplay();
+    try {
+      $return = Yaml::parse($return);
+    } catch (Symfony\Component\Yaml\Exception\ParseException $e) {
+      $this->fail();
+    }
+
+    $this->assertEquals($fields, array_keys(end($return)));
+    $this->assertCount($quantity, $return);
   }
 
 }
