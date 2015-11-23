@@ -74,9 +74,27 @@ class FakerCommandTest extends PHPUnit_Framework_TestCase
       '--quantity' => $quantity
     ));
     $return = json_decode($command->getDisplay(), true);
-    
+
     $this->assertCount($quantity, $return);
     $this->assertEquals($fields, array_keys(end($return)));
+  }
+
+  public function testGenerateReturnPHPArray(){
+    $fields = ['name', 'email'];
+    $quantity = 10;
+    $type = 'php';
+    $command = $this->getCommandTester($this->app->find('generate'));
+    $command->execute(array(
+      'fields' => implode(':',$fields),
+      '--quantity' => $quantity,
+      '--type' => $type
+    ));
+    $return = $command->getDisplay();
+    $return = eval("return $return;");
+
+    $this->assertTrue(is_array($return));
+    $this->assertCount($quantity, $return);
+
   }
 
 }

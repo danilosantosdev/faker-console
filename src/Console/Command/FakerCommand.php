@@ -12,6 +12,11 @@ use Faker\Factory;
 class FakerCommand extends Command
 {
 
+  /**
+   * Configure the command options.
+   *
+   * @return void
+   */
   protected function configure()
   {
     $this
@@ -38,6 +43,13 @@ class FakerCommand extends Command
       );
   }
 
+  /**
+   * Execute the command.
+   *
+   * @param  InputInterface  $input
+   * @param  OutputInterface  $output
+   * @return void
+   */
   protected function execute(InputInterface $input, OutputInterface $output)
   {
     $faker = Factory::create();
@@ -72,6 +84,10 @@ class FakerCommand extends Command
     switch ($type) {
       case 'json':
         return json_encode($data, JSON_PRETTY_PRINT);
+        break;
+
+      case 'php':
+        return var_export($data, true);
         break;
 
       default:
