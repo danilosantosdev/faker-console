@@ -119,4 +119,36 @@ class FakerCommandTest extends PHPUnit_Framework_TestCase
     $this->assertCount($quantity, $return);
   }
 
+  public function testGenerateReturnXML(){
+    $fields = ['name', 'email'];
+    $quantity = 10;
+    $type = 'xml';
+    $command = $this->getCommandTester($this->app->find('generate'));
+    $command->execute(array(
+      'fields' => implode(':',$fields),
+      '--quantity' => $quantity,
+      '--type' => $type
+    ));
+
+    $return = $command->getDisplay();
+
+    $xml = new \SimpleXMLElement('<xml/>');
+    for ($i=0; $i < $quantity; $i++) {
+      $track = $xml->addChild('line');
+      $track->addChild('name');
+      $track->addChild('email');
+    }
+
+    $expected = new DOMDocument;
+    $expected->loadXML($xml->asXML());
+
+    $actual = new DOMDocument;
+    $actual->loadXML($return);
+
+    $this->assertEqualXMLStructure(
+      $expected->firstChild, $actual->firstChild
+    );
+
+  }
+
 }

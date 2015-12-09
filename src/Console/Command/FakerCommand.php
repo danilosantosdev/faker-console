@@ -92,14 +92,41 @@ class FakerCommand extends Command
         break;
 
       case 'yml':
-        return  $this->parseYML($data);
+        return $this->parseYML($data);
+        break;
+
+      case 'xml':
+        return $this->parseXML($data);
         break;
 
       default:
+        throw new \Exception("Error Processing Request", 1);
         break;
 
     }
 
+  }
+
+  protected function parseXML($data){
+    $xml = new \SimpleXMLElement('<xml/>');
+
+    foreach ($data as $key => $row) {
+      if(is_array($row)){
+        $track = $xml->addChild('line');
+        foreach (array_keys($row) as $key) {
+          $track->addChild($key, $row[$key]);
+        }
+      }else{
+        $xml->addChild($key, $row);
+      }
+    }
+
+    $dom = new \DOMDocument("1.0");
+    $dom->preserveWhiteSpace = false;
+    $dom->formatOutput = true;
+    $dom->loadXML($xml->asXML());
+    
+    return $dom->saveXML();
   }
 
   protected function parseYML($data){
